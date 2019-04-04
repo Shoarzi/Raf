@@ -35,6 +35,22 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        List<Arc> succesors = new ArrayList<Arc>();
+        for (Node node : nodes) {
+        	if (node.hasSuccessors()) {
+        		succesors = node.getSuccessors() ;
+        		double time = succesors.get(0).getMinimumTravelTime() ;
+        		Arc fast_arc = succesors.get(0);
+        		for (Arc next : succesors) {
+        			if (next.getMinimumTravelTime()<time) {
+        				time = next.getMinimumTravelTime() ;
+        				fast_arc = next ;
+        			}
+        		}
+        		arcs.add(fast_arc) ;
+        	}
+        	
+        }
         // TODO:
         return new Path(graph, arcs);
     }
@@ -222,11 +238,17 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
      */
     public float getLength() {
+    	float length = 0;
+    	if (!(this.isEmpty()))
+    	{
+    		for(Arc a : arcs ) {
+    			length += a.getLength() ;
+    		}
+    	}
         // TODO:
-        return 0;
+        return length;
     }
 
     /**
@@ -253,11 +275,16 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+    	double min_time = 0 ;
+    	if (!(this.isEmpty()))
+    	{
+    		for(Arc a : arcs ) {
+    			min_time += a.getMinimumTravelTime() ;
+    		}
+    	}
+        return min_time ;
     }
 
 }
