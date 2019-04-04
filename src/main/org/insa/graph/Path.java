@@ -36,23 +36,32 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         List<Arc> succesors = new ArrayList<Arc>();
-        for (Node node : nodes) {
-        	if (node.hasSuccessors()) {
-        		succesors = node.getSuccessors() ;
-        		double time = succesors.get(0).getMinimumTravelTime() ;
-        		Arc fast_arc = succesors.get(0);
-        		for (Arc next : succesors) {
-        			if (next.getMinimumTravelTime()<time) {
-        				time = next.getMinimumTravelTime() ;
-        				fast_arc = next ;
-        			}
-        		}
-        		arcs.add(fast_arc) ;
-        	}
-        	
+        if(nodes.isEmpty()) {
+        	return new Path(graph) ;
         }
-        // TODO:
-        return new Path(graph, arcs);
+        
+        else if (nodes.size()==1) {
+        	return new Path(graph, nodes.get(0)) ;
+        }
+        
+        else {
+	        for (Node node : nodes) {
+	        	if (node.hasSuccessors()) {
+	        		succesors = node.getSuccessors() ;
+	        		double time = succesors.get(0).getMinimumTravelTime() ;
+	        		Arc fast_arc = succesors.get(0);
+	        		for (Arc next : succesors) {
+	        			if (next.getMinimumTravelTime()<time) {
+	        				time = next.getMinimumTravelTime() ;
+	        				fast_arc = next ;
+	        			}
+	        		}
+	        		arcs.add(fast_arc) ;
+	        	}	
+	        }
+	        // TODO:
+	        return new Path(graph, arcs);
+        }
     }
 
     /**
