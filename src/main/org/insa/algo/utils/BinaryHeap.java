@@ -162,9 +162,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     			this.arraySet(index, this.array.get(this.currentSize-1)) ;
     			this.currentSize-- ;
     			
-    	        int ileft = index_left(index);
-    	        int iright = ileft + 1;
-    	        //left<right
+    	        //arnarque moldave
     	        this.percolateUp(index);
     	        this.percolateDown(index) ;
     		}
