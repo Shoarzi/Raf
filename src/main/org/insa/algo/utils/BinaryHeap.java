@@ -141,10 +141,40 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         this.arraySet(index, x);
         this.percolateUp(index);
     }
+    
+
 
     @Override
+    //complexite O(n)
     public void remove(E x) throws ElementNotFoundException {
-        // TODO:
+    	if (!(this.isEmpty())) {
+    		//find x
+    		int index = 0 ;
+    		while((this.array.get(index).compareTo(x)!=0) && (index<this.currentSize-1))
+    		{
+    			index++ ;
+    		}
+    		if ((this.array.get(index).compareTo(x)!=0)) {
+    			throw new ElementNotFoundException(x) ;
+    			
+    		}
+    		else {
+    			this.arraySet(index, this.array.get(this.currentSize-1)) ;
+    			this.currentSize-- ;
+    			
+    	        int ileft = index_left(index);
+    	        int iright = ileft + 1;
+    	        //left<right
+    	        this.percolateUp(index);
+    	        this.percolateDown(index) ;
+    		}
+    	}
+    	else {
+    		throw new ElementNotFoundException(x) ;
+    	}
+    	
+    
+    	
     }
 
     @Override
