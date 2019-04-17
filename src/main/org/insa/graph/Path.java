@@ -46,23 +46,31 @@ public class Path {
         else {
         	int i = 0 ;
 	        for (Node node : nodes) {
-	        	i ++ ; //index de l'element suivant
-	        	if ((i<nodes.size())) {
-	        		succesors = node.getSuccessors() ;
-	        		double time = succesors.get(0).getMinimumTravelTime() ;
-	        		Arc fast_arc = succesors.get(0);
-	        		
-	        		for (Arc next : succesors) {
-	        			if ((next.getDestination().equals(nodes.get(i))) && (next.getMinimumTravelTime()<time)) {
-	        				time = next.getMinimumTravelTime() ;
-	        				fast_arc = next ;
-	        			}
-	        		}
-	        		arcs.add(fast_arc) ;
-	        		if (!(fast_arc.getDestination().equals(nodes.get(i)))) {
-	        			throw new IllegalArgumentException() ;
-	        		}
-	        	}	
+	        	if(node.hasSuccessors()) {   	
+		        	i ++ ; //index de l'element suivant
+		        	if ((i<nodes.size())) {
+		        		succesors = node.getSuccessors() ;
+		        		//voir si ya successeur
+		        		double time = Double.POSITIVE_INFINITY ;
+		        		Arc fast_arc = null;
+		        		
+		        		for (Arc next : succesors) {
+		        			if ((next.getDestination().equals(nodes.get(i))) && (next.getMinimumTravelTime()<time)) {
+		        				time = next.getMinimumTravelTime() ;
+		        				fast_arc = next ;
+		        			}
+		        		}
+		        		arcs.add(fast_arc) ;
+		        		//if (!(fast_arc.getDestination().equals(nodes.get(i)))) {
+		        		if(fast_arc==null) {
+		        			throw new IllegalArgumentException() ;
+		        		}
+		        	}
+	        	}
+		        else 
+		        	{
+		        		throw new IllegalArgumentException() ;
+		        	}
 	        }
 	        return new Path(graph, arcs);
         }
