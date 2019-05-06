@@ -50,7 +50,6 @@ public class Path {
 		        	i ++ ; //index de l'element suivant
 		        	if ((i<nodes.size())) {
 		        		succesors = node.getSuccessors() ;
-		        		//voir si ya successeur
 		        		double time = Double.POSITIVE_INFINITY ;
 		        		Arc fast_arc = null;
 		        		
@@ -72,6 +71,7 @@ public class Path {
 		        		throw new IllegalArgumentException() ;
 		        	}
 	        }
+	        
 	        return new Path(graph, arcs);
         }
     }
@@ -88,7 +88,6 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
