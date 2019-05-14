@@ -21,7 +21,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathData data = getInputData();
         ShortestPathSolution solution = new ShortestPathSolution(data);
    
-        
+        int nb = 0 ;
         //creation des types
         
         List<Node> Noeuds = data.getGraph().getNodes() ; 
@@ -29,6 +29,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Node racine = data.getOrigin() ; 
         Label label_0 = new Label(racine) ;
         Node dest = data.getDestination() ; 
+        boolean possible = true ; 
+        
+        //variables pour tests
+        double cout_label_act = 0 ; 
+        double cout_label_prec = -1 ; 
+       // float cout_label_prec2 = -2 ; 
+        
         //initialise racine
         labete[racine.getId()] = label_0 ; 
         
@@ -39,68 +46,98 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	}
         }
         
-        BinaryHeap<Node> grostas = new BinaryHeap<Node>() ;
-        grostas.insert(racine); 
+        BinaryHeap<Label> grostas = new BinaryHeap<Label>() ;
+        grostas.insert(label_0); 
         
      // Notify observers about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
         
-        while (!(labete[dest.getId()].getmarque())) {
-   
-        	Node x = grostas.findMin();
-        	grostas.remove(x) ;
-        	System.out.print("label atteint : " + x.getId()+ " \n");
-        	//scanf de putain de java qui marche pas
-        	//Scanner scanIn = new Scanner(System.in) ;
-        	labete[x.getId()].mark() ;
-        	if (x.hasSuccessors()) {
-        		System.out.print(x.getId() + " ");
-        		for (Arc succesor : x.getSuccessors()) {
-        			Node next = succesor.getDestination() ;
-        			Label nextL = labete[next.getId()] ; 
-        			System.out.print("voici le successeur dans lequel je suis " + labete[next.getId()] + "\n ");
-
-        			if (!(nextL.getmarque())) {
-        				float current_cost ;
-        				if (Double.isInfinite(nextL.getCost())) {
-        					 current_cost = succesor.getLength() ; 
-        				}
-        				else {
-        					 current_cost = (nextL.getCost() + succesor.getLength()) ; 
-        				}
-        				// pour voir ce qu'on fait graphiquement
-        				if (Double.isInfinite(nextL.getCost()) && Double.isFinite(current_cost)) {
-                            notifyNodeReached(succesor.getDestination());
-        				}
-        				
-        				
-        				if ((nextL.getCost()) > current_cost) {
-        					nextL.setCost(current_cost);
-        					grostas.insert(next);
-        					nextL.setpere(x);
-        				}
-        		
-        			}
-        		}
+        while (!(labete[dest.getId()].getmarque()) && possible) { 
+        	nb ++ ;
+        	if (grostas.isEmpty()) {
+        		System.out.print("Tas vide \n");
+        		solution = new ShortestPathSolution(data, Status.INFEASIBLE) ; 
+        		possible = false ; 
+        	}
+        	else {
+	        	Label x = grostas.findMin() ;
+	        	grostas.remove(x) ;
+	        	
+	        	//System.out.print("label atteint : " + x.getId()+ " \n");
+	        	//Scanner scanIn = new Scanner(System.in) ;
+	        	if (x.getmarque()) {
+	        		System.out.print("element deja marqué y a un problème, merci mr Le Botlan \n"); 
+	        	}
+        		x.mark() ;
+	        	
+	        	
+	        	//verif cout 
+        		cout_label_act = x.getCost(); 
+	        	if (cout_label_act >= cout_label_prec) {
+	        		cout_label_prec = cout_label_act ; 
+	        		
+	        	}
+	        	else {
+	        		System.out.print(nb + " " + "act : " + cout_label_act + " " + "prec : " + cout_label_prec + " cout chocolatine \n");
+	        	}
+	        	notifyNodeMarked(x.getNode()) ; 
+	        	if (x.getNode().hasSuccessors()) {
+		        	
+	        		//System.out.print(x.getId() + " ");
+	        		for (Arc succesor : x.getNode().getSuccessors()) {
+	        			Node next = succesor.getDestination() ;
+	        			Label nextL = labete[next.getId()] ; 
+	        			//System.out.print("voici le successeur dans lequel je suis " + labete[next.getId()] + "\n ");
+	
+	        			if (!(nextL.getmarque())) {
+	        				double current_cost ;
+	        
+	        				current_cost = (x.getCost() + succesor.getLength()) ; 
+	      
+	        				// pour voir ce qu'on fait graphiquement
+	        				if (Double.isInfinite(nextL.getCost()) && Double.isFinite(current_cost)) {
+	                            notifyNodeReached(succesor.getDestination());
+	        				}
+	        				
+	        				
+	        				if ((nextL.getCost()) > current_cost) {
+	        					
+	        					////////////////////////////////////////////////////////////////////
+	        					//voir si element deja present
+	        					///////////////////////////////////////////////////////////////////
+	        					
+	        					nextL.setCost(current_cost);
+	        					grostas.insert(nextL);
+	        					nextL.setpere(x.getNode());
+	        					//System.out.print("mise a jour \n");
+	        				}
+	        		
+	        			}
+	        		}
+	        	}
         	}
         }
-        
+        notifyDestinationReached(dest) ; 
         List<Node> Noeud_solution = new ArrayList<Node>() ;
     	Noeud_solution.add(dest) ;
-        while ( !(labete[dest.getId()] == labete[racine.getId()])) {
+    	//System.out.print(dest.getId() + " ") ; 
+        while ( !(labete[dest.getId()] == labete[racine.getId()]) && possible) {
+        	//System.out.print(labete[dest.getId()].getpere().getId() + " "); 
         	Noeud_solution.add(labete[dest.getId()].getpere()) ;
         	dest = labete[dest.getId()].getpere(); 
-        //	System.out.print("while 2 \n");
+        	//System.out.print("while 2 \n");
         }
-        //Noeud_solution.add(racine) ; 
+         
         Collections.reverse(Noeud_solution);
         
         Path chemin = Path.createShortestPathFromNodes(data.getGraph(), Noeud_solution) ;  
-        
-        solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin) ; 
+        if (solution.getStatus() != Status.INFEASIBLE) {
+        	solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin) ;
+        }
         return solution;
+
     }
-    
+
 
 
 

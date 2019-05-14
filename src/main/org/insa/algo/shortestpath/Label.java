@@ -1,13 +1,13 @@
 package org.insa.algo.shortestpath;
 import org.insa.graph.* ;
 
-public class Label {
+public class Label implements Comparable<Label>{
 	
 	private Node sommet_courrant ;
 
 	private boolean luque ; //marque
 	
-	private float cout ;
+	private double cout ;
 	
 	private Node bernard ;  //pere
 	
@@ -27,12 +27,24 @@ public class Label {
 		this.luque = false ;  
 	}
 	
-	public void setCost(float init_cout) {
+	public void setCost(double init_cout) {
 		this.cout = init_cout ;  
 	}
 	
-	public float getCost() {
+	public int compareTo(Label other) {
+        return Double.compare(getCost(), other.getCost());
+    }
+	
+	public String toString() {
+		return "sommet courant" + sommet_courrant.getId() + " marque : " + luque ; 
+	}
+	
+	public double getCost() {
 		return cout ;
+	}
+	
+	public Node getNode() {
+		return this.sommet_courrant; 
 	}
 	
 	public void setpere(Node papa) {

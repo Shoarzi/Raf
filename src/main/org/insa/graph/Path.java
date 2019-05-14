@@ -107,7 +107,8 @@ public class Path {
 	        	i ++ ; //index de l'element suivant
 	        	if ((i<nodes.size())) {
 	        		succesors = node.getSuccessors() ;
-	        		float dist = succesors.get(0).getLength() ;
+	        		//float dist = succesors.get(0).getLength() ;
+	        		float dist = Float.POSITIVE_INFINITY ;
 	        		Arc short_arc = succesors.get(0); 
 	        		for (Arc next : succesors) {
 	        			if ((next.getDestination().equals(nodes.get(i))) && (next.getLength()<=dist)) {

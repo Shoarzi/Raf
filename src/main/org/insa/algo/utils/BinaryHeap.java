@@ -227,5 +227,14 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         System.out.println("--------  End of heap  --------");
         System.out.println();
     }
+    
+    public void testSorted() {
+
+        BinaryHeap<E> copy = new BinaryHeap<E>(this);
+
+        while (!copy.isEmpty()) {
+            System.out.println(copy.deleteMin());
+        }
+    }
 
 }
