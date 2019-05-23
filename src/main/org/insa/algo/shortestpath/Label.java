@@ -32,7 +32,7 @@ public class Label implements Comparable<Label>{
 	}
 	
 	public int compareTo(Label other) {
-        return Double.compare(getCost(), other.getCost());
+        return Double.compare(getTotalCost(), other.getTotalCost());
     }
 	
 	public String toString() {
@@ -41,6 +41,10 @@ public class Label implements Comparable<Label>{
 	
 	public double getCost() {
 		return cout ;
+	}
+	
+	public double getTotalCost( ) {
+		return cout ; 
 	}
 	
 	public Node getNode() {

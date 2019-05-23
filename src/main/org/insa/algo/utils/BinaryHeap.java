@@ -178,6 +178,23 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     public int find(E x) {
     	return this.array.indexOf(x) ;
     }
+    
+    public boolean isValid(int index) {
+    	boolean val = true ;
+    	boolean val_l = true ;
+    	boolean val_r = true ;
+    	if (this.index_left(index) < this.size()) {
+    		 val_l = this.array.get(this.index_left(index)).compareTo(this.array.get(index))>0 && this.isValid(this.index_left(index)) ; 
+    	}
+    	if ((this.index_left(index)+1) < this.size()) {
+    		//val = val && this.isValid(this.index_left(index)+1) ; 
+    		val_r = this.array.get(this.index_left(index)+1).compareTo(this.array.get(index))>0 && this.isValid(this.index_left(index)+1) ; 
+    	}
+    	else {
+    		val = (val_r && val_l) ;
+    	}
+    	return val ;
+    }
 
     @Override
     public E findMin() throws EmptyPriorityQueueException {
