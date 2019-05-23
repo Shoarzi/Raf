@@ -15,6 +15,26 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
     }
+    
+    public Label[] Initialisation( ShortestPathData data) {
+        Node dest = data.getDestination() ;  
+    	List<Node> Noeuds = data.getGraph().getNodes() ; 
+        LabelStar labete[]  = new LabelStar[Noeuds.size()]  ; 
+        Node racine = data.getOrigin() ; 
+        LabelStar label_0 = new LabelStar(racine, dest) ;
+        
+        //initialise racine
+        labete[racine.getId()] = label_0 ; 
+        
+        //initialisation
+        for (Node sac : Noeuds) {
+        	if (!(sac.equals(racine))) {
+        		labete[sac.getId()] = new LabelStar(sac, null, dest) ;
+        	}
+        }
+        return labete ;
+    }
+
 
 
 
