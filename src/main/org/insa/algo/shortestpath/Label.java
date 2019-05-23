@@ -5,26 +5,26 @@ public class Label implements Comparable<Label>{
 	
 	private Node sommet_courrant ;
 
-	private boolean luque ; //marque
+	private boolean mark ; 
 	
 	private double cout ;
 	
-	private Node bernard ;  //pere
+	private Node pere ;  
 	
 	public Label(Node init_sommet ,Node init_vador) {
 		this.sommet_courrant = init_sommet ; 
-		this.bernard = init_vador ; 
+		this.pere = init_vador ; 
 		//on considère un coût infini pour un chemin qui n'existe pas
 		this.cout = Float.POSITIVE_INFINITY ; 
-		this.luque = false ;  
+		this.mark = false ;  
 	}
 	
 	public Label(Node init_sommet) {
 		this.sommet_courrant = init_sommet ; 
-		this.bernard = null ; 
+		this.pere = null ; 
 		//on considère un coût à 0 pour la racine
 		this.cout = 0;  
-		this.luque = false ;  
+		this.mark = false ;  
 	}
 	
 	public void setCost(double init_cout) {
@@ -36,7 +36,7 @@ public class Label implements Comparable<Label>{
     }
 	
 	public String toString() {
-		return "sommet courant" + sommet_courrant.getId() + " marque : " + luque ; 
+		return "sommet courant" + sommet_courrant.getId() + " marque : " + mark ; 
 	}
 	
 	public double getCost() {
@@ -48,19 +48,19 @@ public class Label implements Comparable<Label>{
 	}
 	
 	public void setpere(Node papa) {
-		this.bernard = papa ; 
+		this.pere = papa ; 
 	}
 	
 	public Node getpere() {
-		return this.bernard ;
+		return this.pere ;
 	}
 	
 	public void mark() {
-		this.luque = true ;
+		this.mark = true ;
 	}
 	
 	public boolean getmarque() {
-		return this.luque ;
+		return this.mark ;
 	}
 	
 }

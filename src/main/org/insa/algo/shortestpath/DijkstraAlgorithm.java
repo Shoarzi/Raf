@@ -33,8 +33,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         //variables pour tests
         double cout_label_act = 0 ; 
-        double cout_label_prec = -1 ; 
-       // float cout_label_prec2 = -2 ; 
+        double cout_label_prec = -1 ;
+        int taille = 0 ;
+
         
         //initialise racine
         labete[racine.getId()] = label_0 ; 
@@ -60,13 +61,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		possible = false ; 
         	}
         	else {
-	        	Label x = grostas.findMin() ;
-	        	grostas.remove(x) ;
+        		
+	        	Label x = grostas.deleteMin() ;
+	        	
+	        	//evolution de taiile du tas
+	        	System.out.print("size heap : " + grostas.size() + "\n");
 	        	
 	        	//System.out.print("label atteint : " + x.getId()+ " \n");
-	        	//Scanner scanIn = new Scanner(System.in) ;
 	        	if (x.getmarque()) {
-	        		System.out.print("element deja marquÃ© y a un problÃ¨me, merci mr Le Botlan \n"); 
+	        		System.out.print("element deja marqué y a un problème, merci mr Le Botlan \n"); 
 	        	}
         		x.mark() ;
 	        	
@@ -104,19 +107,22 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        					
 	        					////////////////////////////////////////////////////////////////////
 	        					//voir si element deja present
-	        					///////////////////////////////////////////////////////////////////
+	        					if (grostas.find(nextL)==-1) {
+	        						nextL.setCost(current_cost);
+		        					grostas.insert(nextL);
+			        				nextL.setpere(x.getNode());
+	        					}
+	        					/////////////////////////////////////////////////////////////////// 
 	        					
-	        					nextL.setCost(current_cost);
-	        					grostas.insert(nextL);
-	        					nextL.setpere(x.getNode());
-	        					//System.out.print("mise a jour \n");
 	        				}
-	        		
+	        					//System.out.print("mise a jour \n");
 	        			}
+	        		
 	        		}
 	        	}
-        	}
+	        }
         }
+        
         notifyDestinationReached(dest) ; 
         List<Node> Noeud_solution = new ArrayList<Node>() ;
     	Noeud_solution.add(dest) ;

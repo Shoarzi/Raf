@@ -174,6 +174,10 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     
     	
     }
+    
+    public int find(E x) {
+    	return this.array.indexOf(x) ;
+    }
 
     @Override
     public E findMin() throws EmptyPriorityQueueException {
