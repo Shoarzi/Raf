@@ -1,19 +1,34 @@
 package org.insa.algo.shortestpath;
 
+import org.insa.algo.AbstractInputData;
 import org.insa.graph.Node;
 
 public class LabelStar extends Label implements Comparable<Label> {
 	
 	private double cout_estime ; 
 	
-	public LabelStar(Node init_sommet ,Node init_vador, Node dest) {
+	public LabelStar(Node init_sommet ,Node init_vador, Node dest, ShortestPathData data) {
 		super(init_sommet, init_vador) ; 
-		this.cout_estime =  this.getNode().getPoint().distanceTo(dest.getPoint()) ;
+		if (data.getMode()== AbstractInputData.Mode.LENGTH) {
+			this.cout_estime =  this.getNode().getPoint().distanceTo(dest.getPoint()) ;
+		}
+		else {
+			int vitesse = Math.max(data.getGraph().getGraphInformation().getMaximumSpeed(),data.getMaximumSpeed()) ;
+			this.cout_estime =  this.getNode().getPoint().distanceTo(dest.getPoint())/(vitesse*1000.0f/3600.0f) ;
+		}
+		
 	}
 	
-	public LabelStar(Node init_sommet, Node dest) {
+	public LabelStar(Node init_sommet, Node dest, ShortestPathData data) {
 		super(init_sommet) ; 
-		this.cout_estime =  this.getNode().getPoint().distanceTo(dest.getPoint()) ;
+		if (data.getMode()== AbstractInputData.Mode.LENGTH) {
+			this.cout_estime =  this.getNode().getPoint().distanceTo(dest.getPoint()) ;
+		}
+		else {
+			int vitesse = Math.max(data.getGraph().getGraphInformation().getMaximumSpeed(),data.getMaximumSpeed()) ;
+			this.cout_estime =  this.getNode().getPoint().distanceTo(dest.getPoint())/(vitesse*1000.0f/3600.0f) ;
+		}
+		
 	}
 	
 	public double getEstimatedCost() {

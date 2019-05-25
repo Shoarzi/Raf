@@ -87,14 +87,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        	
 	        	
 	        	//verif cout 
-        		cout_label_act = x.getCost(); 
-	        	if (cout_label_act >= cout_label_prec) {
-	        		cout_label_prec = cout_label_act ; 
-	        		
+        		cout_label_act = x.getTotalCost(); 
+	        	if (cout_label_act < cout_label_prec) {
+	        		System.out.print(nb + " " + "act : " + cout_label_act + " " + "prec : " + cout_label_prec + " cout chocolatine \n");	
 	        	}
-	        	else {
-	        		System.out.print(nb + " " + "act : " + cout_label_act + " " + "prec : " + cout_label_prec + " cout chocolatine \n");
-	        	}
+	        	cout_label_prec = cout_label_act ; 
+	   
 	        	notifyNodeMarked(x.getNode()) ; 
 	        	if (x.getNode().hasSuccessors()) {
 		        	
@@ -121,13 +119,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        				}
 	        				
 	        				
-	        				if ((nextL.getCost()) > current_cost) {
+	        				if ((nextL.getCost() > current_cost)  ){
 	        					
-	        					if (grostas.find(nextL)==-1) {
-	        						nextL.setCost(current_cost);
-		        					grostas.insert(nextL);
-			        				nextL.setpere(x.getNode());
+	        					if (!(nextL.getvisite())) {
+	        						nextL.visite();
 	        					}
+	        					else {
+	        						grostas.remove(nextL);
+	        					}
+	        					nextL.setCost(current_cost);
+		        				nextL.setpere(x.getNode());
+		        				grostas.insert(nextL);
 	        					
 	        				}
 	        					//System.out.print("mise a jour \n");

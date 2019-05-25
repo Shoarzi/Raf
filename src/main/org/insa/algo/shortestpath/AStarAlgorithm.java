@@ -21,7 +21,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     	List<Node> Noeuds = data.getGraph().getNodes() ; 
         LabelStar labete[]  = new LabelStar[Noeuds.size()]  ; 
         Node racine = data.getOrigin() ; 
-        LabelStar label_0 = new LabelStar(racine, dest) ;
+        LabelStar label_0 = new LabelStar(racine, dest, data) ;
         
         //initialise racine
         labete[racine.getId()] = label_0 ; 
@@ -29,7 +29,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         //initialisation
         for (Node sac : Noeuds) {
         	if (!(sac.equals(racine))) {
-        		labete[sac.getId()] = new LabelStar(sac, null, dest) ;
+        		labete[sac.getId()] = new LabelStar(sac, null, dest, data) ;
         	}
         }
         return labete ;

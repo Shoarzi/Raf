@@ -7,6 +7,8 @@ public class Label implements Comparable<Label>{
 
 	private boolean mark ; 
 	
+	private boolean visite ;
+	
 	private double cout ;
 	
 	private Node pere ;  
@@ -16,7 +18,8 @@ public class Label implements Comparable<Label>{
 		this.pere = init_vador ; 
 		//on considère un coût infini pour un chemin qui n'existe pas
 		this.cout = Float.POSITIVE_INFINITY ; 
-		this.mark = false ;  
+		this.mark = false ; 
+		this.visite = false ;
 	}
 	
 	public Label(Node init_sommet) {
@@ -24,7 +27,8 @@ public class Label implements Comparable<Label>{
 		this.pere = null ; 
 		//on considère un coût à 0 pour la racine
 		this.cout = 0;  
-		this.mark = false ;  
+		this.mark = false ; 
+		this.visite = false ;
 	}
 	
 	public void setCost(double init_cout) {
@@ -61,6 +65,14 @@ public class Label implements Comparable<Label>{
 	
 	public void mark() {
 		this.mark = true ;
+	}
+	
+	public void visite() {
+		this.visite = true ;
+	}
+	
+	public boolean getvisite() {
+		return this.visite ;
 	}
 	
 	public boolean getmarque() {
