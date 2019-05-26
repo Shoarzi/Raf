@@ -83,20 +83,20 @@ public class DijkstraAlgorithmTest {
 		try {
 			DATA.add(getShortestPathSolution(Toulouse, 22382, 27539, 0, 'd'));
 			DATA.add(getShortestPathSolution(Toulouse, 22382, 27539, 0, 'b'));
-			DATA.add(getShortestPathSolution(Toulouse, 22382, 27539, 2, 'd'));
-			DATA.add(getShortestPathSolution(Toulouse, 22382, 27539, 2, 'b'));
 			DATA.add(getShortestPathSolution(Aveyron, 64819, 118899, 0, 'd'));
 			DATA.add(getShortestPathSolution(Aveyron, 64819, 118899, 0, 'b'));
-			DATA.add(getShortestPathSolution(Aveyron, 64819, 118899, 2, 'd'));
-			DATA.add(getShortestPathSolution(Aveyron, 64819, 118899, 2, 'b'));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			DATA.add(getShortestPathSolution(Toulouse, 22382, 27539, 2, 'd'));
+			DATA.add(getShortestPathSolution(Toulouse, 22382, 27539, 2, 'b'));
+			DATA.add(getShortestPathSolution(Aveyron, 64819, 118862, 2, 'd'));
+			DATA.add(getShortestPathSolution(Aveyron, 64819, 118862, 2, 'b'));
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		assertEquals((int)DATA.get(0).getPath().getLength(), (int)(DATA.get(1).getPath().getLength()));
 		assertEquals((int)DATA.get(2).getPath().getLength(), (int)(DATA.get(3).getPath().getLength()));
-		assertEquals((int)DATA.get(4).getPath().getMinimumTravelTime(), (int)DATA.get(5).getPath().getMinimumTravelTime());
-		assertEquals((int)DATA.get(6).getPath().getMinimumTravelTime(), (int)DATA.get(7).getPath().getMinimumTravelTime());
+		assertEquals(DATA.get(4).getPath().getMinimumTravelTime(), DATA.get(5).getPath().getMinimumTravelTime(), 0.05);
+		assertEquals((double)(DATA.get(6).getPath().getMinimumTravelTime()), (double)DATA.get(7).getPath().getMinimumTravelTime(), 0.01);
 		DATA.clear();
 	}
 
