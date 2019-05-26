@@ -42,13 +42,13 @@ public class DijkstraAlgorithmTest {
 		ShortestPathAlgorithm Algo ;
 	    switch(algo) {
 	    case 'b':
-	    	Algo = new BellmanFordAlgorithm(new ShortestPathData(graph, graph.get(originId), graph.get(originId), ArcInspectorFactory.getAllFilters().get(mode)));
+	    	Algo = new BellmanFordAlgorithm(new ShortestPathData(graph, graph.get(originId), graph.get(destId), ArcInspectorFactory.getAllFilters().get(mode)));
 	    	break;
 	    case 'd':
-	    	Algo = new DijkstraAlgorithm(new ShortestPathData(graph, graph.get(originId), graph.get(originId), ArcInspectorFactory.getAllFilters().get(mode)));
+	    	Algo = new DijkstraAlgorithm(new ShortestPathData(graph, graph.get(originId), graph.get(destId), ArcInspectorFactory.getAllFilters().get(mode)));
 	    	break;
 	    case 'a':
-	    	Algo = new AStarAlgorithm(new ShortestPathData(graph, graph.get(originId), graph.get(originId), ArcInspectorFactory.getAllFilters().get(mode)));
+	    	Algo = new AStarAlgorithm(new ShortestPathData(graph, graph.get(originId), graph.get(destId), ArcInspectorFactory.getAllFilters().get(mode)));
 	    	break;
 	    default:
 	    	throw new Exception("Code d'algorithme incorrect. Entrez d, b ou a");

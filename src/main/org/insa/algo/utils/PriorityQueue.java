@@ -40,6 +40,7 @@ public interface PriorityQueue<E extends Comparable<E>> {
      * @param x Item to insert.
      */
     public void insert(E x);
+    
 
     /**
      * Remove the given element from the priority queue.

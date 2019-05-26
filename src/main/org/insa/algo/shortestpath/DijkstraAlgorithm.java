@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+	
+	static public int nb_node_reached = 0 ;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
@@ -54,6 +56,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         double cout_label_act = 0 ; 
         double cout_label_prec = -1 ;
         int iteration = 0 ;
+        nb_node_reached = 0 ;
 
         
         
@@ -76,8 +79,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        	Label x = grostas.deleteMin() ;
 	        	
 	        	//evolution de taiile du tas
-	        	System.out.print("size heap : " + grostas.size() + "\n");
-	        	System.out.print("valid : "+ grostas.isValid(0) + "\n");
+	        	//System.out.print("size heap : " + grostas.size() + "\n");
+	        	//System.out.print("valid : "+ grostas.isValid(0) + "\n");
 	        	
 	        	//System.out.print("label atteint : " + x.getId()+ " \n");
 	        	if (x.getmarque()) {
@@ -89,7 +92,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        	//verif cout 
         		cout_label_act = x.getTotalCost(); 
 	        	if (cout_label_act < cout_label_prec) {
-	        		System.out.print(nb + " " + "act : " + cout_label_act + " " + "prec : " + cout_label_prec + " cout chocolatine \n");	
+	        		//System.out.print(nb + " " + "act : " + cout_label_act + " " + "prec : " + cout_label_prec + " cout chocolatine \n");	
 	        	}
 	        	cout_label_prec = cout_label_act ; 
 	   
@@ -116,6 +119,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        				// pour voir ce qu'on fait graphiquement
 	        				if (Double.isInfinite(nextL.getCost()) && Double.isFinite(current_cost)) {
 	                            notifyNodeReached(succesor.getDestination());
+	                            nb_node_reached++ ;
 	        				}
 	        				
 	        				
@@ -163,7 +167,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin) ;
         }
         System.out.print("nb iteration : " + nb + "\n");
-        System.out.print("nb arc chemin : " + (nb_node-1) + "\n");
+        //System.out.print("nb arc chemin : " + (nb_node-1) + "\n");
         return solution;
 
     }

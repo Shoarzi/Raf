@@ -212,6 +212,7 @@ public abstract class PriorityQueueTest {
         assertEquals(0, queue.size());
         assertTrue(queue.isEmpty());
     }
+    
 
     @Test(expected = ElementNotFoundException.class)
     public void testRemoveEmpty() {
