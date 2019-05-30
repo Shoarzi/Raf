@@ -50,6 +50,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Node racine = data.getOrigin() ; 
         Node dest = data.getDestination() ; 
         boolean possible = true ; 
+        if ((racine==null) || (dest==null) ) {
+        	System.out.print("Error : Nodes Not Found \n");
+        	possible = false ;
+        	solution = new ShortestPathSolution(data, Status.INFEASIBLE) ; 
+        }
+        else {
+        
         
         Label[] labete = Initialisation(data) ;
         //variables pour tests
@@ -67,7 +74,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
      // Notify observers about the first event (origin processed).
         notifyOriginProcessed(data.getOrigin());
         
-        while (!(labete[dest.getId()].getmarque()) && possible) { 
+        while (possible && !(labete[dest.getId()].getmarque())) { 
         	nb ++ ;
         	if (grostas.isEmpty()) {
         		System.out.print("Tas vide \n");
@@ -83,10 +90,22 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        	//System.out.print("valid : "+ grostas.isValid(0) + "\n");
 	        	
 	        	//System.out.print("label atteint : " + x.getId()+ " \n");
+	        	
 	        	if (x.getmarque()) {
 	        		System.out.print("element deja marqu� y a un probl�me, merci mr Le Botlan \n"); 
 	        	}
-        		x.mark() ;
+        		x.mark() ; 
+        		
+        		
+        		//pour afficher les valeurs finales des labels
+        		/*
+        		if(x.getpere()!=null) {
+        			System.out.print(x.getNode().getId() + " cout : " + x.getTotalCost() + " pere : " + x.getpere().getId() + "\n") ;
+        		}
+        		else {
+        			System.out.print(x.getNode().getId() + " cout : " + x.getTotalCost() + " pere : " + x.getpere() + "\n") ;
+        		}
+        		*/
 	        	
 	        	
 	        	//verif cout 
@@ -151,7 +170,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
     	Noeud_solution.add(dest) ;
     	//System.out.print(dest.getId() + " ") ; 
     	int nb_node = 0;
-        while ( !(labete[dest.getId()] == labete[racine.getId()]) && possible) {
+        while (possible && !(labete[dest.getId()] == labete[racine.getId()]) ) {
         	nb++ ;
         	//System.out.print(labete[dest.getId()].getpere().getId() + " "); 
         	Noeud_solution.add(labete[dest.getId()].getpere()) ;
@@ -166,8 +185,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         if (solution.getStatus() != Status.INFEASIBLE) {
         	solution = new ShortestPathSolution(data, Status.OPTIMAL, chemin) ;
         }
-        System.out.print("nb iteration : " + nb + "\n");
+        //System.out.print("nb iteration : " + nb + "\n");
         //System.out.print("nb arc chemin : " + (nb_node-1) + "\n");
+        }
         return solution;
 
     }

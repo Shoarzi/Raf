@@ -131,13 +131,22 @@ public class Performance {
         		String map =  buff.readLine() ;
         		String[] data = new String[2] ;
         		
+        		
+            	
         		int origin = 0;
             	int dest = 0 ;
             	
         		mode = Integer.parseInt(buff.readLine()) ;
         		int nb_test = Integer.parseInt(buff.readLine()) ;
+        		
+        		fwd.write(map + "\n");
+            	fwd.write(mode +  "\n");
+            	fwd.write(nb_test + "\n");
+            	fwd.write("//distance" + "\t"+ "nb noeud atteint" + "\t"+ "temps\n");
+            	
+            	long time = 0 ;
         		long startTime ;
-        		long time = 0 ;
+        		
         		
         		//on fait les test
         		for(int i=0; i<nb_test;i++) {
@@ -148,7 +157,7 @@ public class Performance {
         			startTime = System.currentTimeMillis() ;
         			ShortestPathSolution solution = Performance.calcul(algo, name, origin, dest, mode) ;
         			time = System.currentTimeMillis()-startTime ;
-        			fwd.write(solution.getPath().getLength() + " " + DijkstraAlgorithm.nb_node_reached + " " + time + "\n");
+        			fwd.write(solution.getPath().getLength() + "\t" + DijkstraAlgorithm.nb_node_reached + "\t" + time + "\n");
         			//System.out.print(data[0] + " "+ data[1] + " \n");
         		}
         		fwd.close();
