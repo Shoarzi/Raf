@@ -29,6 +29,8 @@ public class DijkstraAlgorithmTest {
 	
 	private static String Toulouse, Aveyron ;
 	
+	public static int nb_node_reached = 0 ;
+	
 	// Small graph use for tests
     private static Graph graphsimple;
 
@@ -102,7 +104,6 @@ public class DijkstraAlgorithmTest {
 	    }
 	    return Algo.run();
 	}
-	
 	
     @Test
     public void testSImple() {

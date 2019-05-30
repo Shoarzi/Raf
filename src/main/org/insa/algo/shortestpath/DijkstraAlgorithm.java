@@ -12,11 +12,20 @@ import java.util.Collections;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	
-	static public int nb_node_reached = 0 ;
+	 
+	 protected int nb_nodes ;
+	
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
     }
+    
+    
+    public int getNbNodesReached() {
+    	System.out.print(nb_nodes + "\n");
+    	return nb_nodes ;
+    }
+
     
     public Label[] Initialisation( ShortestPathData data)
     {
@@ -24,7 +33,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Label labete[]  = new Label[Noeuds.size()]  ; 
         Node racine = data.getOrigin() ; 
         Label label_0 = new Label(racine) ;
-        Node dest = data.getDestination() ;  
+        Node dest = data.getDestination() ;
+        nb_nodes = 0 ;
         
         //initialise racine
         labete[racine.getId()] = label_0 ; 
@@ -44,6 +54,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = new ShortestPathSolution(data);
    
         int nb = 0 ;
+        nb_nodes = 0 ;
         //creation des types
         
         List<Node> Noeuds = data.getGraph().getNodes() ; 
@@ -63,7 +74,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         double cout_label_act = 0 ; 
         double cout_label_prec = -1 ;
         int iteration = 0 ;
-        nb_node_reached = 0 ;
 
         
         
@@ -138,7 +148,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	        				// pour voir ce qu'on fait graphiquement
 	        				if (Double.isInfinite(nextL.getCost()) && Double.isFinite(current_cost)) {
 	                            notifyNodeReached(succesor.getDestination());
-	                            nb_node_reached++ ;
+	                            nb_nodes++ ;
 	        				}
 	        				
 	        				

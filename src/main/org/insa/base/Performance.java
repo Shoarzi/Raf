@@ -24,8 +24,11 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.insa.algo.AbstractSolution;
+import org.insa.algo.ArcInspectorFactory;
+import org.insa.algo.shortestpath.AStarAlgorithm;
 import org.insa.algo.shortestpath.DijkstraAlgorithm;
 import org.insa.algo.shortestpath.DijkstraAlgorithmTest;
+import org.insa.algo.shortestpath.ShortestPathData;
 import org.insa.algo.shortestpath.ShortestPathSolution;
 import org.insa.graph.Graph;
 import org.insa.graph.Node;
@@ -39,29 +42,44 @@ import org.insa.graphics.drawing.components.BasicDrawing;
 
 public class Performance {
 	
+	private static int nbReached = 0 ;
+	
 	private static ShortestPathSolution calcul(String option, String name , int origin, int dest, int mode) throws Exception {
 		ShortestPathSolution solution = null ;
+		String mapPath="D:\\Telecharger\\" + name + ".mapgr";
+		GraphReader reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapPath))));
+		Graph graph = reader.read();
 		switch(option) {
-		case "dijkstra" : 
+		case "-d" : 
 			try {
-				solution = DijkstraAlgorithmTest.getShortestPathSolution(name, origin, dest, mode, 'd') ;
+				System.out.print("dijkstra \n") ;
+				nbReached = 0 ;
+				DijkstraAlgorithm Algo = new DijkstraAlgorithm(new ShortestPathData(graph, graph.get(origin), graph.get(dest), ArcInspectorFactory.getAllFilters().get(mode)));
+				solution = Algo.run() ;
+				nbReached = Algo.getNbNodesReached();
 			}
 			catch (Exception e) {
-				System.out.print("Code d'algorithme incorrect. Entrez d, b ou a") ;
+				System.out.print("Code d'algorithme incorrect") ;
 			}
+			break ;
 			
-		case "astar" : 
+		case "-a" : 
 			try {
-				solution = DijkstraAlgorithmTest.getShortestPathSolution(name, origin, dest, mode, 'a') ;
+				System.out.print("astar \n") ;
+				nbReached = 0 ;
+				AStarAlgorithm Algo = new AStarAlgorithm(new ShortestPathData(graph, graph.get(origin), graph.get(dest), ArcInspectorFactory.getAllFilters().get(mode)));
+				solution = Algo.run();
+				nbReached = Algo.getNbNodesReached();
 			}
 			catch (Exception e) {
-				System.out.print("Code d'algorithme incorrect. Entrez d, b ou a") ;
+				System.out.print("Code d'algorithme incorrect") ;
 			}
+			break ;
 			
 		
-		default : return solution ;
+		default : break ; 
 		}
-		
+		return solution ;
 	}
 	
 	
@@ -95,7 +113,8 @@ public class Performance {
         switch(test) {
         case "-d":
         	try { 
-            	fwd = new FileWriter(new File("toulouse_distance_100_data.txt")) ;
+        		System.out.print("data \n");
+            	fwd = new FileWriter(new File( name + "_distance_100_data.txt")) ;
             	fwd.write(name + "\n");
             	fwd.write(args[1] +  "\n");
             	fwd.write("100\n");
@@ -124,8 +143,19 @@ public class Performance {
         	
         case "-p": 
         	try {
-        		fr = new FileReader("toulouse_distance_100_data.txt") ;
-        		fwd = new FileWriter( new File("toulouse_distance_100_" + algo +".txt")) ;
+        		System.out.print("perf \n");
+        		String nameAlgo = "" ;
+        		switch(algo) {
+        		case "-a" :
+        			nameAlgo = "AStar" ;
+        			break ;
+       
+        		case "-d" : 
+        			nameAlgo = "Dijkstra" ;
+        			break ;
+        		}
+        		fr = new FileReader(name + "_distance_100_data.txt") ;
+        		fwd = new FileWriter( new File(name + "_perf_100_" + nameAlgo + ".txt")) ;
         		BufferedReader buff = new BufferedReader(fr) ;
         		String line ;
         		String map =  buff.readLine() ;
@@ -157,7 +187,7 @@ public class Performance {
         			startTime = System.currentTimeMillis() ;
         			ShortestPathSolution solution = Performance.calcul(algo, name, origin, dest, mode) ;
         			time = System.currentTimeMillis()-startTime ;
-        			fwd.write(solution.getPath().getLength() + "\t" + DijkstraAlgorithm.nb_node_reached + "\t" + time + "\n");
+        			fwd.write(solution.getPath().getLength() + "\t" + nbReached + "\t" + time + "\n");
         			//System.out.print(data[0] + " "+ data[1] + " \n");
         		}
         		fwd.close();

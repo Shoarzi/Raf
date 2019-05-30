@@ -12,11 +12,13 @@ import org.insa.graph.Path;
 
 public class AStarAlgorithm extends DijkstraAlgorithm {
 
+	
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
     }
     
     public Label[] Initialisation( ShortestPathData data) {
+    	nb_nodes = 0 ;
         Node dest = data.getDestination() ;  
     	List<Node> Noeuds = data.getGraph().getNodes() ; 
         LabelStar labete[]  = new LabelStar[Noeuds.size()]  ; 
